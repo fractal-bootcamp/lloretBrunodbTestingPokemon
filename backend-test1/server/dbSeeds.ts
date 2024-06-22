@@ -1,23 +1,24 @@
-import { PrismaClient } from '@prisma/client';
-import fetch from 'node-fetch';
+import { PrismaClient, Trainer } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
+
 async function createTrainersandFetchPokemon() {
-    const trainers: { id: string; name: string; }[] = [];
+    const trainers: Trainer[] = [];
 
     // Create 10 trainers
     for (let i = 0; i < 10; i++) {
         const userId = faker.string.uuid();
         const userName = faker.person.firstName();
 
-        const user = await prisma.user.create({
+        const user = await prisma.trainer.create({
             data: {
                 id: userId,
                 name: userName
             },
         });
+
         trainers.push(user);
         console.log(`Created user: ${user.name} with id: ${user.id}`);
     }
@@ -30,7 +31,10 @@ async function createTrainersandFetchPokemon() {
 
     for (const pokemon of data.results) {
         const pokemonResponse = await fetch(pokemon.url);
+        console.log(pokemonResponse)
+
         const pokemonData = await pokemonResponse.json();
+        console.log('pokemonData done');
 
         const randomTrainer = trainers[Math.floor(Math.random() * trainers.length)];
 

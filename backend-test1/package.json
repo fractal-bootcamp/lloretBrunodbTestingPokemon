@@ -11,13 +11,12 @@
     "test:server:up": "npx dotenv-cli -e .env.test -- pm2 start 'bun server/server.ts' --name testserver",
     "test:server:down": "pm2 delete testserver",
     "test:run": "npx dotenv-cli -e .env.test -- vitest run",
-    "test-db": "npm run test:db:up ; npm run test:db:migrate ; npm run test:server:up ; npm run seed:test:db:integrated ; npm run test:run ; npm run test:server:down ; npm run test:db:down",
+    "test-db": "npm run test:db:up ; npm run test:db:migrate ; npm run test:server:up ; npm run test:db:seed ; npm run test:run ; npm run test:server:down ; npm run test:db:down",
     "start": "bun run index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "seed:test:db:isolated": "npx dotenv-cli -e .env.test -- npx tsx src/dbSeeds.ts",
-    "seed:test:db:integrated": "npx dotenv-cli -e .env.test -- npx tsx server/dbSeeds.ts"
+    "test:db:seed": "npx dotenv-cli -e .env.test -- npx tsx server/dbSeeds.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
